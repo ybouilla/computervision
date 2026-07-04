@@ -22,3 +22,12 @@ This repo contains image processing algorithms, filtering, semi-automatic segmen
 
 For this section, we are going to see the results of several segmentation algorithms
 ![img1](./imgs_notebooks/img1_notebook.png)
+
+
+### 3.1 Using Graphcuts
+
+Here we are going to perfrom a segmantion using Graphcut algorithms:
+
+**Results**
+
+![img2](./imgs_notebooks/graph_cut_seg.png)
