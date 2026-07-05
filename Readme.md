@@ -11,7 +11,7 @@ This repo contains image processing algorithms, filtering, semi-automatic segmen
 * Image filtering
 * Segmentation algorithms
 * deep learning (YOLO)
-* Evaluation tehcniques
+* Evaluation techniques
 
 
 ## 1. Simple modification
@@ -20,13 +20,13 @@ This repo contains image processing algorithms, filtering, semi-automatic segmen
 
 ## 3. Segmentation algorithms
 
-For this section, we are going to see the results of several segmentation algorithms
+In this section, we are going to see the results of several segmentation algorithms
 ![img1](./imgs_notebooks/img1_notebook.png)
 
 
 ### 3.1 Using Graphcuts
 
-Here we are going to perfrom a segmantion using Graphcut algorithms:
+Here we are going to perfrom a segmentation using Graphcut algorithms:
 
 **Results**
 
