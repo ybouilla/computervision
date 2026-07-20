@@ -2,6 +2,8 @@ import numpy as np
 import scipy as sp
 
 
+from utils import get_contour
+
 # segmentation eval facility
 
 def flood_fill(test_array,h_max=255):
@@ -38,13 +40,15 @@ def yasnoff2D(test, ref):
     """Cr.Yasnoff=100×√(∑_i^(card(I))▒〖d²(i)〗)/N_tot 
     here we compute a symetric version of the distance
     """
+    
     test = (test == 1)
     ref = (ref == 1)
-
+    
+    n_tot = np.sum((test + ref )> 0)
     stored1 = _yasnoff2D(test, ref)
     stored2 = _yasnoff2D(ref, test)
 
-    return np.sqrt(np.sum(stored1) + np.sum(stored2)) / 200
+    return np.sqrt(np.sum(stored1) + np.sum(stored2)) / n_tot
     
 def _yasnoff2D(area1, area2):
     test_pts = np.argwhere(area1 == 1)
@@ -58,14 +62,17 @@ def _yasnoff2D(area1, area2):
     return stored
 
 def _hausdorff2D(area1, area2):
-    test_pts = np.argwhere(area1 == 1)
-    ref_pts = np.argwhere(area2 == 1)
-    
+    """area1: test
+    area2: ref
+    """
+    test_pts = np.argwhere(area1 == 255)
+    ref_pts = np.argwhere(area2 == 255)
+    # TODO: improve by considering only boundaries of images (and not the whole mask)
     stored, pts = [], []
     
     for p in test_pts:
         d = np.linalg.norm(ref_pts - p, axis=1)
-        stored.append(d.max())
+        stored.append(int(d.min()))
         
     return stored
 
@@ -75,10 +82,16 @@ def hausdorff2D(area1, area2):
     """
     area1 = (area1==1)
     area2 = area2==1
+    
+    area1 = get_contour(area1.astype(np.uint8))
+    area2 = get_contour(area2.astype(np.uint8))
+    
 
     stored1 = _hausdorff2D(area1, area2)
     stored2 = _hausdorff2D(area2, area1)
-    hd = np.max((stored1 + stored2))
+
+    hd = np.max((np.percentile(stored1, 95).astype(int),
+               np.percentile(stored2, 95).astype(int),))
     return hd
 
 
